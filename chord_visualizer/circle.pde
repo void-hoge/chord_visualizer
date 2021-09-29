@@ -41,9 +41,7 @@ class Circle{
     noFill();
     for (int i = 0; i < this.line.size(); i++){
       Point p = this.line.get(i);
-      float coef =
-      abs(p.a - p.b)/PI+1;
-      //1;
+      float coef = abs(p.a - p.b)/PI+1;
       float anchor1 = p.a;
       float anchor2 = p.a+(p.b-p.a)/4;
       float anchor3 = p.a+(p.b-p.a)/2;
@@ -55,27 +53,32 @@ class Circle{
 
       Point anc1 = new Point(cos(anchor1)*radius*coef, sin(anchor1)*radius*coef);
       Point anc2 = new Point(cos(anchor2)*radius*coef, sin(anchor2)*radius*coef);
-      Point anc3 = new Point(cos(anchor3)*radius*coef, sin(anchor3)*radius*coef);
       Point anc4 = new Point(cos(anchor4)*radius*coef, sin(anchor4)*radius*coef);
+      Point tmp = new Point((anc2.a+anc4.a)/2, (anc2.b+anc4.b)/2);
+      Point anc3 = new Point(cos(anchor3)*radius*coef, sin(anchor3)*radius*coef);
+      anc2 = new Point(anc2.a+(anc3.a-tmp.a), anc2.b+(anc3.b-tmp.b));
+      anc4 = new Point(anc4.a+(anc3.a-tmp.a), anc4.b+(anc3.b-tmp.b));
       Point anc5 = new Point(cos(anchor5)*radius*coef, sin(anchor5)*radius*coef);
 
       stroke(0,0,255);
       noFill();
-      bezier(a_c.a, a_c.b, anc1.a, anc1.b, anc1.a, anc1.b, anc2.a, anc2.b);
-      bezier(anc2.a, anc2.b, anc3.a, anc3.b, anc3.a, anc3.b, anc4.a, anc4.b);
-      bezier(anc4.a, anc4.b, anc5.a, anc5.b, anc5.a, anc5.b, b_c.a, b_c.b);
+      beginShape();
+        vertex(a_c.a, a_c.b);
+        bezierVertex(anc1.a, anc1.b, anc2.a, anc2.b, anc3.a, anc3.b);
+        bezierVertex(anc4.a, anc4.b, anc5.a, anc5.b, b_c.a, b_c.b);
+      endShape();
 
-      noStroke();
-      fill(0,255,0);
-      ellipse(anc1.a, anc1.b, point_size, point_size);
-      fill(255,0,0);
-      ellipse(anc2.a, anc2.b, point_size, point_size);
-      fill(0,0,255);
-      ellipse(anc3.a, anc3.b, point_size, point_size);
-      fill(255, 0, 255);
-      ellipse(anc4.a, anc4.b, point_size, point_size);
-      fill(0, 255, 255);
-      ellipse(anc5.a, anc5.b, point_size, point_size);
+      //noStroke();
+      //fill(0,255,0);
+      //ellipse(anc1.a, anc1.b, point_size, point_size);
+      //fill(255,0,0);
+      //ellipse(anc2.a, anc2.b, point_size, point_size);
+      //fill(0,0,255);
+      //ellipse(anc3.a, anc3.b, point_size, point_size);
+      //fill(255, 0, 255);
+      //ellipse(anc4.a, anc4.b, point_size, point_size);
+      //fill(0, 255, 255);
+      //ellipse(anc5.a, anc5.b, point_size, point_size);
     }
   }
   void display_chord() {
