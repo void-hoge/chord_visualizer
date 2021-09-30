@@ -42,7 +42,7 @@ class Circle{
     this.display_flare();
   }
   void display_flare() {
-    stroke(2);
+    stroke(0);
     noFill();
     for (int i = 0; i < this.flare.size(); i++){
       Point p = this.flare.get(i);
