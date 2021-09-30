@@ -16,15 +16,20 @@ class Circle{
   int radius;
   int x;
   int y;
-  ArrayList<Point> line;
+  ArrayList<Point> chord;
+  ArrayList<Point> flare;
   Circle(int x, int y, int radius) {
     this.x = x;
     this.y = y;
     this.radius = radius;
-    line = new ArrayList<Point>();
+    this.chord = new ArrayList<Point>();
+    this.flare = new ArrayList<Point>();
   }
-  void add_line(float a, float b) {
-    this.line.add(new Point(a,b));
+  void add_chord(float a, float b) {
+    this.chord.add(new Point(a,b));
+  }
+  void add_flare(float a, float b) {
+    this.flare.add(new Point(a, b));
   }
   void display() {
     ellipseMode(CENTER);
@@ -39,8 +44,8 @@ class Circle{
   void display_flare() {
     stroke(2);
     noFill();
-    for (int i = 0; i < this.line.size(); i++){
-      Point p = this.line.get(i);
+    for (int i = 0; i < this.flare.size(); i++){
+      Point p = this.flare.get(i);
       float coef = abs(p.a - p.b)/PI+1;
       float anchor1 = p.a;
       float anchor2 = p.a+(p.b-p.a)/4;
@@ -82,8 +87,8 @@ class Circle{
     }
   }
   void display_chord() {
-    for (int i = 0; i < this.line.size(); i++) {
-      Point p = this.line.get(i);
+    for (int i = 0; i < this.chord.size(); i++) {
+      Point p = this.chord.get(i);
       Point a_c = new Point(cos(p.a)*radius, sin(p.a)*radius);
       Point b_c = new Point(cos(p.b)*radius, sin(p.b)*radius);
       noStroke();
