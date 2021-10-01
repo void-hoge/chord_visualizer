@@ -16,20 +16,26 @@ class Circle{
   int radius;
   int x;
   int y;
+  float small_section = 0.01;
   ArrayList<Point> chord;
   ArrayList<Point> flare;
+  ArrayList<Float> parabola;
   Circle(int x, int y, int radius) {
     this.x = x;
     this.y = y;
     this.radius = radius;
     this.chord = new ArrayList<Point>();
     this.flare = new ArrayList<Point>();
+    this.parabola = new ArrayList<Float>();
   }
   void add_chord(float a, float b) {
     this.chord.add(new Point(a,b));
   }
   void add_flare(float a, float b) {
     this.flare.add(new Point(a, b));
+  }
+  void add_parabola(float a) {
+    this.parabola.add(a);
   }
   void display() {
     ellipseMode(CENTER);
@@ -41,6 +47,7 @@ class Circle{
     this.display_chord();
     //this.display_flare1();
     this.display_flare2();
+    this.display_parabola();
   }
   void display_flare1() {
     noFill();
@@ -146,6 +153,29 @@ class Circle{
       ellipse(b_c.a, b_c.b, point_size, point_size);
       stroke(0);
       line(a_c.a, a_c.b, b_c.a, b_c.b);
+    }
+  }
+  void display_parabola() {
+    stroke(0);
+    rotate(-PI/2);
+    for (int i = 0; i < this.parabola.size(); i++) {
+      float x = 0;
+      float y = 0;
+      while (x*x+y*y <= 1.0) {
+        float nx = x + small_section;
+        float ny = nx*nx*parabola.get(i);
+        if (nx*nx+ny*ny > 1.0) {
+          nx = sqrt((-1+sqrt(1+4*parabola.get(i)*parabola.get(i)))/(2*parabola.get(i)*parabola.get(i)));
+          ny = nx*nx*parabola.get(i);
+          line(x*radius, y*radius, nx*radius, ny*radius);
+          line(-x*radius, y*radius, -nx*radius, ny*radius);
+          break;
+        }
+        line(x*radius, y*radius, nx*radius, ny*radius);
+        line(-x*radius, y*radius, -nx*radius, ny*radius);
+        x = nx;
+        y = ny;
+      }
     }
   }
 }
