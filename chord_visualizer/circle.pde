@@ -88,7 +88,7 @@ class Circle{
     stroke(0);
     noFill();
     ellipse(x,y,radius*2, radius*2);
-    this.display_chord();
+    //this.display_chord();
     this.display_flare();
     this.display_parabola();
   }
