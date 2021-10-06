@@ -11,31 +11,50 @@ class Point{
   }
 }
 
+class Pair{
+  int a;
+  int b;
+  Pair(int a, int b) {
+    this.a = a;
+    this.b = b;
+  }
+  Pair() {
+    a = -1;
+    b = -1;
+  }
+}
+
 class Circle{
   int point_size = 5;
   int radius;
   int x;
   int y;
   float small_section = 0.01;
-  ArrayList<Point> chord;
-  ArrayList<Point> flare;
+  ArrayList<Point> point; // angle, coeff of function
+  ArrayList<Pair> chord;
+  ArrayList<Pair> flare;
   ArrayList<Float> parabola;
   Circle(int x, int y, int radius) {
     this.x = x;
     this.y = y;
     this.radius = radius;
-    this.chord = new ArrayList<Point>();
-    this.flare = new ArrayList<Point>();
+    this.chord = new ArrayList<Pair>();
+    this.flare = new ArrayList<Pair>();
     this.parabola = new ArrayList<Float>();
+    this.point = new ArrayList<Point>();
   }
-  void add_chord(float a, float b) {
-    this.chord.add(new Point(a,b));
+  void add_chord(int a, int b) {
+    this.chord.add(new Pair(a,b));
   }
-  void add_flare(float a, float b) {
-    this.flare.add(new Point(a, b));
+  void add_flare(int a, int b) {
+    this.flare.add(new Pair(a, b));
   }
   void add_parabola(float a) {
     this.parabola.add(a);
+    
+  }
+  void add_point(float a) {
+    this.point.add(new Point(a, 0));
   }
   void display() {
     ellipseMode(CENTER);
@@ -46,58 +65,14 @@ class Circle{
     ellipse(x,y,radius*2, radius*2);
     this.display_chord();
     //this.display_flare1();
-    this.display_flare2();
+    this.display_flare();
     this.display_parabola();
   }
-  void display_flare1() {
-    noFill();
-    for (int i = 0; i < this.flare.size(); i++){
-      Point p = this.flare.get(i);
-      float coef = abs(p.a - p.b)/PI+1;
-      float anchor1 = p.a;
-      float anchor2 = p.a+(p.b-p.a)/4;
-      float anchor3 = p.a+(p.b-p.a)/2;
-      float anchor4 = p.a+(p.b-p.a)*3/4;
-      float anchor5 = p.b;
-
-      Point a_c = new Point(cos(p.a)*radius, sin(p.a)*radius);
-      Point b_c = new Point(cos(p.b)*radius, sin(p.b)*radius);
-
-      Point anc1 = new Point(cos(anchor1)*radius*coef, sin(anchor1)*radius*coef);
-      Point anc2 = new Point(cos(anchor2)*radius*coef, sin(anchor2)*radius*coef);
-      Point anc4 = new Point(cos(anchor4)*radius*coef, sin(anchor4)*radius*coef);
-      Point tmp = new Point((anc2.a+anc4.a)/2, (anc2.b+anc4.b)/2);
-      Point anc3 = new Point(cos(anchor3)*radius*coef, sin(anchor3)*radius*coef);
-      anc2 = new Point(anc2.a+(anc3.a-tmp.a), anc2.b+(anc3.b-tmp.b));
-      anc4 = new Point(anc4.a+(anc3.a-tmp.a), anc4.b+(anc3.b-tmp.b));
-      Point anc5 = new Point(cos(anchor5)*radius*coef, sin(anchor5)*radius*coef);
-
-      stroke(0,0,255);
-      noFill();
-      beginShape();
-        vertex(a_c.a, a_c.b);
-        bezierVertex(anc1.a, anc1.b, anc2.a, anc2.b, anc3.a, anc3.b);
-        bezierVertex(anc4.a, anc4.b, anc5.a, anc5.b, b_c.a, b_c.b);
-      endShape();
-
-      //noStroke();
-      //fill(0,255,0);
-      //ellipse(anc1.a, anc1.b, point_size, point_size);
-      //fill(255,0,0);
-      //ellipse(anc2.a, anc2.b, point_size, point_size);
-      //fill(0,0,255);
-      //ellipse(anc3.a, anc3.b, point_size, point_size);
-      //fill(255, 0, 255);
-      //ellipse(anc4.a, anc4.b, point_size, point_size);
-      //fill(0, 255, 255);
-      //ellipse(anc5.a, anc5.b, point_size, point_size);
-    }
-  }
-  void display_flare2() {
+  void display_flare() {
     noFill();
     float taper = PI/8;
     for (int i = 0; i < this.flare.size(); i++) {
-      Point p = this.flare.get(i);
+      Point p = new Point(this.point.get(this.flare.get(i).a).a, this.point.get(this.flare.get(i).b).a);
       Point a = new Point(cos(p.a)*radius, sin(p.a)*radius);
       Point b = new Point(cos(p.b)*radius, sin(p.b)*radius);
       float arcradius = radius*(abs(p.a-p.b)/PI+1);
@@ -143,7 +118,7 @@ class Circle{
   }
   void display_chord() {
     for (int i = 0; i < this.chord.size(); i++) {
-      Point p = this.chord.get(i);
+      Point p = new Point(this.point.get(this.chord.get(i).a).a, this.point.get(this.chord.get(i).b).a);
       Point a_c = new Point(cos(p.a)*radius, sin(p.a)*radius);
       Point b_c = new Point(cos(p.b)*radius, sin(p.b)*radius);
       noStroke();
