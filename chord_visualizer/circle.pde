@@ -1,3 +1,6 @@
+import java.util.Comparator;
+import java.util.Collections;
+
 class Point{
   float a;
   float b;
@@ -8,6 +11,15 @@ class Point{
   Point() {
     a = 0;
     b = 0;
+  }
+}
+
+class PointComparator implements Comparator<Point> {
+  @Override
+  public int compare(Point p1, Point p2) {
+    if (p1.a > p2.a) return 1;
+    if (p1.a == p2.a) return 0;
+    return -1;
   }
 }
 
@@ -25,15 +37,15 @@ class Pair{
 }
 
 class Circle{
-  int point_size = 5;
-  int radius;
-  int x;
-  int y;
-  float small_section = 0.01;
-  ArrayList<Point> point; // angle, coeff of function
-  ArrayList<Pair> chord;
-  ArrayList<Pair> flare;
-  ArrayList<Float> parabola;
+  private final int point_size = 5;
+  private int radius;
+  private int x;
+  private int y;
+  private final float small_section = 0.01;
+  private ArrayList<Point> point; // angle, coeff of function (not used)
+  private ArrayList<Pair> chord;
+  private ArrayList<Pair> flare;
+  private ArrayList<Float> parabola;
   Circle(int x, int y, int radius) {
     this.x = x;
     this.y = y;
@@ -51,12 +63,25 @@ class Circle{
   }
   void add_parabola(float a) {
     this.parabola.add(a);
-    
+    float x = sqrt((-1+sqrt(1+4*pow(a,2)))/(2*pow(a,2)));
+    //float y = x*x*a;
+    float angle;
+    if (a > 0) {
+      angle = asin(x);
+    }else {
+      angle = PI-asin(x);
+    }
+    this.add_point(angle);
+    this.add_point(2*PI-angle);
   }
   void add_point(float a) {
     this.point.add(new Point(a, 0));
   }
+  void sort_points() {
+    Collections.sort(this.point, new PointComparator());
+  }
   void display() {
+    this.sort_points();
     ellipseMode(CENTER);
     translate(width/2, height/2);
     rotate(-PI/2);
@@ -64,7 +89,6 @@ class Circle{
     noFill();
     ellipse(x,y,radius*2, radius*2);
     this.display_chord();
-    //this.display_flare1();
     this.display_flare();
     this.display_parabola();
   }
@@ -132,7 +156,7 @@ class Circle{
   }
   void display_parabola() {
     stroke(0);
-    rotate(-PI/2);
+    rotate(-PI/2); // The positive direction is opposite in processing. In total(in void display(), rotated -PI/2), rotated -PI. 
     for (int i = 0; i < this.parabola.size(); i++) {
       float x = 0;
       float y = 0;
@@ -140,7 +164,7 @@ class Circle{
         float nx = x + small_section;
         float ny = nx*nx*parabola.get(i);
         if (nx*nx+ny*ny > 1.0) {
-          nx = sqrt((-1+sqrt(1+4*parabola.get(i)*parabola.get(i)))/(2*parabola.get(i)*parabola.get(i)));
+          nx = sqrt((-1+sqrt(1+4*pow(parabola.get(i), 2)))/(2*pow(parabola.get(i),2)));
           ny = nx*nx*parabola.get(i);
           line(x*radius, y*radius, nx*radius, ny*radius);
           line(-x*radius, y*radius, -nx*radius, ny*radius);
