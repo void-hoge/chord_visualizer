@@ -22,6 +22,7 @@ void setup() {
 
   cl.add_parabola(16);
   cl.add_parabola(2);
+  cl.add_parabola(5);
   cl.add_parabola(0.25);
   cl.add_parabola(-0.25);
   cl.add_parabola(-3);
