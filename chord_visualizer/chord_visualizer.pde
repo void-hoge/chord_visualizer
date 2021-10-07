@@ -5,7 +5,7 @@ public static void main(String args[]) {
   if (args.length != 1) {
     throw new IllegalArgumentException("too much/few commandline option");
   }
-  println(args.length);
+  // println(args.length);
   newArgs = new String[3];
   newArgs[0] = "--bgcolor=#FFFFFF";
   newArgs[1] = "chord_visualizer";

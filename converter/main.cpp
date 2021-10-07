@@ -54,5 +54,6 @@ int main() {
 		result.push_back(std::make_pair(x, y));
 		std::cout << x << ", " << y << '\n';
 	}
+	std::cerr << "Conversion completed." << '\n';
 	return 0;
 }
