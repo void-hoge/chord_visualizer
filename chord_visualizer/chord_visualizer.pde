@@ -1,5 +1,4 @@
 static String[] newArgs;
-static int DEBUG = 0;
 
 public static void main(String args[]) {
   if (args.length != 1) {
@@ -18,7 +17,13 @@ Circle cl;
 void setup() {
   size(1280, 720);
   noLoop();
-  cl = new Circle(0,0,200);
+  int display_option = 0;
+  // display_option |= cl.isDisplayChord;
+  display_option |= cl.isDisplayFlare;
+  display_option |= cl.isDisplayParabola;
+  display_option |= cl.isDisplayPoint;
+  display_option |= cl.isDisplayCircle;
+  cl = new Circle(0,0,200, 5, display_option);
 
   String[] lines = loadStrings(newArgs[2]);
   ArrayList<Integer> connectlist = new ArrayList<Integer>();

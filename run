@@ -1,3 +1,7 @@
 #!/bin/sh
+if [[ $1 == "" ]]; then
+	echo "no input file"
+	exit
+fi
 ./converter/build/converter < $1 > out
 processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out

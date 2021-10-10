@@ -42,25 +42,37 @@ class Circle{
   private int x;
   private int y;
   private final float small_section = 0.01;
-  private ArrayList<Point> point; // angle, coeff of function (not used)
+  private ArrayList<Point> point; // (angle, coeff) of function (coeff is not used)
   private ArrayList<Pair> chord;
   private ArrayList<Pair> flare;
   private ArrayList<Float> parabola;
-  Circle(int x, int y, int radius) {
+
+  public static final int isDisplayChord = 1;
+  public static final int isDisplayFlare = 2;
+  public static final int isDisplayParabola = 4;
+  public static final int isDisplayPoint = 8;
+  public static final int isDisplayCircle = 16;
+  private int display_option;
+
+  Circle(int x, int y, int radius, int point_size, int display_option) {
     this.x = x;
     this.y = y;
     this.radius = radius;
+    this.display_option = display_option;
     this.chord = new ArrayList<Pair>();
     this.flare = new ArrayList<Pair>();
     this.parabola = new ArrayList<Float>();
     this.point = new ArrayList<Point>();
   }
+
   void add_chord(int a, int b) {
     this.chord.add(new Pair(a,b));
   }
+
   void add_flare(int a, int b) {
     this.flare.add(new Pair(a, b));
   }
+
   void add_parabola(float a) {
     this.parabola.add(a);
     float x = sqrt((-1+sqrt(1+4*pow(a,2)))/(2*pow(a,2)));
@@ -74,26 +86,45 @@ class Circle{
     this.add_point(angle);
     this.add_point(2*PI-angle);
   }
+
   void add_point(float a) {
     this.point.add(new Point(a, 0));
   }
+
   void sort_points() {
     Collections.sort(this.point, new PointComparator());
   }
+
   void display() {
     this.sort_points();
     ellipseMode(CENTER);
     translate(width/2, height/2);
     rotate(-PI/2);
-    stroke(0);
-    noFill();
-    ellipse(x,y,radius*2, radius*2);
-    this.display_chord();
-    this.display_flare();
+    if ((this.display_option & this.isDisplayCircle) != 0) {
+      stroke(0);
+      noFill();
+      ellipse(x,y,radius*2, radius*2);
+    }
+    if ((this.display_option & this.isDisplayChord) != 0) {
+      this.display_chord();
+    }
+    if ((this.display_option & this.isDisplayFlare) != 0) {
+      this.display_flare();
+    }
+    if ((this.display_option & this.isDisplayParabola) != 0) {
+      this.display_parabola();
+    }
+    if ((this.display_option & this.isDisplayPoint) != 0) {
+      this.display_point();
+    }
+    // this.display_chord();
+    // this.display_flare();
     // this.display_parabola();
   }
-  void display_flare() {
+
+  private final void display_flare() {
     noFill();
+    stroke(0);
     float taper = PI/8;
     for (int i = 0; i < this.flare.size(); i++) {
       Point p = new Point(this.point.get(this.flare.get(i).a).a, this.point.get(this.flare.get(i).b).a);
@@ -140,21 +171,22 @@ class Circle{
       }
     }
   }
-  void display_chord() {
+
+  private void display_chord() {
+    stroke(0);
     for (int i = 0; i < this.chord.size(); i++) {
       Point p = new Point(this.point.get(this.chord.get(i).a).a, this.point.get(this.chord.get(i).b).a);
       Point a_c = new Point(cos(p.a)*radius, sin(p.a)*radius);
       Point b_c = new Point(cos(p.b)*radius, sin(p.b)*radius);
-      noStroke();
-      fill(0,255,0);
-      ellipse(a_c.a, a_c.b, point_size, point_size);
-      fill(255,0,0);
-      ellipse(b_c.a, b_c.b, point_size, point_size);
-      stroke(0);
+      // fill(0,255,0);
+      // ellipse(a_c.a, a_c.b, point_size, point_size);
+      // fill(255,0,0);
+      // ellipse(b_c.a, b_c.b, point_size, point_size);
       line(a_c.a, a_c.b, b_c.a, b_c.b);
     }
   }
-  void display_parabola() {
+
+  private void display_parabola() {
     stroke(0);
     rotate(-PI/2); // The positive direction is opposite in processing. In total(in void display(), rotated -PI/2), rotated -PI.
     for (int i = 0; i < this.parabola.size(); i++) {
@@ -175,6 +207,17 @@ class Circle{
         x = nx;
         y = ny;
       }
+    }
+    rotate(PI/2); // rev
+  }
+
+  private void display_point() {
+    noStroke();
+    fill(255,0,0);
+    for (int i = 0; i < this.point.size(); i++) {
+      float p = this.point.get(i).a;
+      Point p_coodinate = new Point(cos(p)*radius, sin(p)*radius);
+      ellipse(p_coodinate.a, p_coodinate.b, point_size, point_size);
     }
   }
 }
