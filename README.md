@@ -2,7 +2,7 @@
 <img src="images/result1.png" width="800">
 
 ## installation
-- UNIX(Mac/Linux(たぶん))に対応、Windowsは非対応
+- 少なくともMacに対応、おそらくLinuxにも対応、Windowsは非対応
 - processingの実行環境が必要
 - converterをconverter/build/内にビルド
   - g++-11で記述しているが、CMakeList.txtで変更できる。
@@ -51,6 +51,18 @@
 ## chord_visualizerの要件
 - 上記のconverterの出力が書いてあるファイルのフルパスをコマンドラインオプションから渡す。
 - 中身にアクセスできる必要がある。
+
+## chord_visualizerの描画設定
+- 今のところ、何を表示するかはchord_visualizerのソースファイルに書く必要がある。
+- [chord_visualizer.pde](chord_visualizer/chord_visualizer.pde)の21-25行目をコメントアウトしたりしなかったりすることで設定できる。
+  - isDisplayChord: 弦を描画するかどうか
+  - isDisplayFlare: 外側で点をつなぐ曲線を描画するか
+  - isDisplayParabola: 2次曲線を描画するか
+  - isDisplayPoint: 2次曲線と円が交わる点を赤色の点で描画するか
+  - isDisplayCircle: 円を描画するか
+- コメントアウトすると表示されなくなる。(画像では弦の描画を切っている)
+
+<img src="images/option.png" width="400">
 
 ## TODO
 - ファイルから表示設定ができるようにする(?)
