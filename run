@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 if [[ $1 == "" ]]; then
 	echo "no input file"
 	exit
