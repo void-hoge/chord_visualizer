@@ -1,5 +1,5 @@
 # chord_visualizer
-<img src="images/result1.png" width="800">
+<img src="images/result.png" width="800">
 
 ## installation
 - 少なくともMacに対応、おそらくLinuxにも対応、Windowsは非対応
@@ -8,9 +8,12 @@
 
 ## usage
 - 順序の数列を記述したテキストファイルを用意
-- `./run filename`で実行
+- `./run *filename*`で実行
 - 例えば、`./run test`
 - 実行時のターミナルの様子
+- `./run *input* *image_name*`で、名前が image_nameの画像が出力される。
+- 画像の形式は何も指定しないとTIFF(.tif)
+- png、jpgなどが設定できる。(processingの[save関数](https://processing.org/reference/save_.html)を使用している。)
 
 <img src="images/terminal.png" width="800">
 
@@ -52,7 +55,7 @@
 - 中身にアクセスできる必要がある。
 
 ## chord_visualizerの描画設定
-- 今のところ、何を表示するかはchord_visualizerのソースファイルに書く必要がある。
+- 今のところ、何を描画するかはchord_visualizerのソースファイルに書く必要がある。
 - [chord_visualizer.pde](chord_visualizer/chord_visualizer.pde)の21-25行目をコメントアウトしたりしなかったりすることで設定できる。
   - isDisplayChord: 弦を描画するかどうか
   - isDisplayFlare: 外側で点をつなぐ曲線を描画するか

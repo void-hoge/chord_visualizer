@@ -1,14 +1,17 @@
 static String[] newArgs;
 
 public static void main(String args[]) {
-  if (args.length != 1) {
+  if (!(args.length == 1 || args.length == 2)) {
     throw new IllegalArgumentException("too much/few commandline option");
   }
   // println(args.length);
-  newArgs = new String[3];
+  newArgs = new String[4];
   newArgs[0] = "--bgcolor=#FFFFFF";
   newArgs[1] = "chord_visualizer";
   newArgs[2] = args[0];
+  if (args.length == 2) {
+    newArgs[3] = args[1];
+  }
   PApplet.main(newArgs);
 }
 
@@ -77,4 +80,5 @@ void setup() {
 void draw() {
   background(255);
   cl.display();
+  save(newArgs[3]);
 }
