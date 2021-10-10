@@ -8,6 +8,13 @@ const side left = false;
 int input(std::vector<int>& v, std::istream& is) {
 	int len;
 	is >> len;
+	std::cout << len << '\n';
+	for (int i = 0; i < len; i++) {
+		double tmp;
+		is >> tmp;
+		std::cout << tmp << ' ';
+	}
+	std::cout << '\n';
 	for (int i = 0; i < len; i++) {
 		int tmp;
 		is >> tmp;

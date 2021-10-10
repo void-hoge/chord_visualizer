@@ -20,29 +20,52 @@ void setup() {
   noLoop();
   cl = new Circle(0,0,200);
 
-  cl.add_parabola(16);
-  cl.add_parabola(2);
-  cl.add_parabola(5);
-  cl.add_parabola(0.25);
-  cl.add_parabola(-0.25);
-  cl.add_parabola(-3);
   String[] lines = loadStrings(newArgs[2]);
-  ArrayList<Integer> hoge = new ArrayList<Integer>();
-  for (int i = 0 ; i < lines.length; i++) {
-    String[] data = lines[i].split(", |,");
+  ArrayList<Integer> connectlist = new ArrayList<Integer>();
+
+  // parse N
+  String[] data = lines[0].split(", |,| ");
+  int n = 0;
+  try {
+    n = Integer.parseInt(data[0]);
+    println("N = "+n);
+  }catch(NumberFormatException e){
+    println("Error: cannot parse \"" + data[0] + "\" as N (must be a integer)");
+  }finally{}
+  // println(n);
+
+  // parse list of parabola's coeff
+  println("Parabola's coeffs");
+  data = lines[1].split(", |,| ");
+  for (int i = 0; i < data.length; i++) {
+    try {
+      float tmp = Float.parseFloat(data[i]);
+      cl.add_parabola(tmp);
+      print(tmp+" ");
+    }catch(NumberFormatException e){
+      println("Error: cannot parse \"" + data[0] + "\" as parabola's coeff(must be a float)");
+    }finally{}
+  }
+  println();
+
+  // parse list of connections
+  for (int i = 2; i < lines.length; i++) {
+    data = lines[i].split(", |,| ");
     for (int j = 0; j < data.length; j++) {
       try {
-        println(Integer.parseInt(data[j]));
-        hoge.add(Integer.parseInt(data[j]));
-      }catch(NumberFormatException e){
-        println("cannot parse \"" +data[j]+"\"");
-      }finally{
-      }
+        connectlist.add(Integer.parseInt(data[j]));
+      }catch (NumberFormatException e){
+         println("Error: cannot parse \""+data[j]+"\" as connection of a pair(must be a integer)");
+      }finally{}
     }
   }
-  for (int i = 0; i < hoge.size()/2; i++) {
-    cl.add_chord(hoge.get(i*2)-1, hoge.get(i*2+1)-1);
-    cl.add_flare(hoge.get(i*2)-1, hoge.get(i*2+1)-1);
+
+  // setting to Circle class obj
+  println("Connection pairs");
+  for (int i = 0; i < connectlist.size()/2; i++) {
+    cl.add_chord(connectlist.get(i*2)-1, connectlist.get(i*2+1)-1);
+    cl.add_flare(connectlist.get(i*2)-1, connectlist.get(i*2+1)-1);
+    println("("+(connectlist.get(i*2)) + ", " + (connectlist.get(i*2+1))+")");
   }
 }
 

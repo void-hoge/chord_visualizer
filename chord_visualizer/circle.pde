@@ -88,9 +88,9 @@ class Circle{
     stroke(0);
     noFill();
     ellipse(x,y,radius*2, radius*2);
-    //this.display_chord();
+    this.display_chord();
     this.display_flare();
-    this.display_parabola();
+    // this.display_parabola();
   }
   void display_flare() {
     noFill();
@@ -156,7 +156,7 @@ class Circle{
   }
   void display_parabola() {
     stroke(0);
-    rotate(-PI/2); // The positive direction is opposite in processing. In total(in void display(), rotated -PI/2), rotated -PI. 
+    rotate(-PI/2); // The positive direction is opposite in processing. In total(in void display(), rotated -PI/2), rotated -PI.
     for (int i = 0; i < this.parabola.size(); i++) {
       float x = 0;
       float y = 0;
