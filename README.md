@@ -5,7 +5,6 @@
 - 少なくともMacに対応、おそらくLinuxにも対応、Windowsは非対応
 - processingの実行環境が必要
 - converterをconverter/build/内にビルド
-  - g++-11で記述しているが、CMakeList.txtで変更できる。
 
 ## usage
 - 順序の数列を記述したテキストファイルを用意
