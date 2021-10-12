@@ -37,26 +37,35 @@ int idx(const int i, const int n) {
 	return i%n;
 }
 
+unsigned diff_of_c(std::vector<int>& pi, const int i, const int n) { // c_i+1 - c_i
+	return (unsigned)(pi.at(idx(i+1,n)) - pi.at(idx(i,n)));
+}
+
 int main() {
 	std::vector<int> pi;
 	const std::size_t n = input(pi, std::cin);
 	std::vector<std::pair<int, int>> result;
 	int x, y;
+	// i = 1
 	x = pi.at(0);
-	if ((pi.at(idx(1,n))-pi.at(idx(0,n)))%2 == 1) {
-		y = pi.at(idx(1,n));
+	if (diff_of_c(pi,0,n)%2 == 1) {
+		y = pi.at(idx(1,n)); // f
 	}else {
-		y = cmpl(pi.at(idx(1,n)), n);
+		y = cmpl(pi.at(idx(1,n)), n); // g
 	}
 	result.push_back(std::make_pair(x, y));
 	std::cout << x << ", " << y << '\n';
+	// i > 1
 	for (std::size_t i = 1; i < n; i++) {
 		x = cmpl(y, n);
-		if (( ((unsigned)(pi.at((idx(i+1,n)))-pi.at((idx(i,n))))%2 == 1) && (left_right(x, n) == right) ) ||
-		( ((unsigned)(pi.at((idx(i+1,n)))-pi.at((idx(i,n))))%2 == 0) && (left_right(x, n) == left) ) ) {
-			y = pi.at(idx(i+1,n));
+		if (
+			((diff_of_c(pi,i,n)%2==1) && (left_right(x, n)==right))
+		||
+			((diff_of_c(pi,i,n)%2==0) && (left_right(x, n)==left))
+		) {
+			y = pi.at(idx(i+1,n)); // f
 		}else {
-			y = cmpl(pi.at(idx(i+1,n)), n);
+			y = cmpl(pi.at(idx(i+1,n)), n); // g
 		}
 		result.push_back(std::make_pair(x, y));
 		std::cout << x << ", " << y << '\n';
