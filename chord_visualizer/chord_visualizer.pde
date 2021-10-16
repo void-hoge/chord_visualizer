@@ -1,4 +1,5 @@
 static String[] newArgs;
+static int argc;
 
 public static void main(String args[]) {
   if (!(args.length == 1 || args.length == 2)) {
@@ -10,7 +11,10 @@ public static void main(String args[]) {
   newArgs[1] = "chord_visualizer";
   newArgs[2] = args[0];
   if (args.length == 2) {
+    argc = 2;
     newArgs[3] = args[1];
+  } else {
+    argc = 1;
   }
   PApplet.main(newArgs);
 }
@@ -80,5 +84,7 @@ void setup() {
 void draw() {
   background(255);
   cl.display();
-  save(newArgs[3]);
+  if (argc == 2){
+    save(newArgs[3]);
+  }
 }
