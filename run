@@ -7,5 +7,5 @@ fi
 if [[ $2 == "" ]]; then
 	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out
 else
-	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out `pwd`/images/result.png
+	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out `pwd`/$2
 fi
