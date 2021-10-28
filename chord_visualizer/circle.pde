@@ -36,6 +36,16 @@ class Pair{
   }
 }
 
+float solution_of_quadratic(float a, float b, float c) {
+	println("a = "+a+", b = "+b+", c = "+c);
+	println("d = "+(b*b-a*c*4));
+	return (-b+sqrt(b*b-4*a*c))/(2*a);
+}
+
+float linear(Point p, float x) {
+	return p.a*x + p.b;
+}
+
 class Circle{
   private final int point_size = 5;
   private int radius;
@@ -73,22 +83,22 @@ class Circle{
     this.flare.add(new Pair(a, b));
   }
 
-  void add_parabola(float a) {
-    this.parabola.add(a);
-    float x = sqrt((-1+sqrt(1+4*pow(a,2)))/(2*pow(a,2)));
+  void add_parabola(float coeff) {
+    this.parabola.add(coeff);
+    float x = sqrt((-1+sqrt(1+4*pow(coeff,2)))/(2*pow(coeff,2)));
     //float y = x*x*a;
     float angle;
-    if (a > 0) {
+    if (coeff > 0) {
       angle = asin(x);
     }else {
       angle = PI-asin(x);
     }
-    this.add_point(angle);
-    this.add_point(2*PI-angle);
+    this.add_point(angle, coeff);
+    this.add_point(2*PI-angle, coeff);
   }
 
-  void add_point(float a) {
-    this.point.add(new Point(a, 0));
+  void add_point(float angle, float coeff) {
+    this.point.add(new Point(angle, coeff));
   }
 
   void sort_points() {
@@ -170,6 +180,32 @@ class Circle{
         arc(x, y, arcradius*2, arcradius*2, wp1_ang, wp2_ang);
       }
     }
+  }
+
+  private final void display_flare2() {
+    noFill();
+    stroke(0);
+    rotate(-PI/2);
+    line(0, radius, 0, -radius);
+    line(radius, 0, -radius, 0);
+    ellipse(0, radius, point_size, point_size);
+    ellipse(radius, 0, point_size, point_size);
+    float taper = PI/8;
+    for (int i = 0; i < this.flare.size(); i++) {
+      stroke(0);
+      Point p = new Point(this.point.get(this.flare.get(i).a).a, this.point.get(this.flare.get(i).b).a);
+      Point a = new Point(cos(p.a), sin(p.a));
+      float a_coef = this.point.get(this.flare.get(i).a).b;
+
+      Point a_tangent = new Point(2*a.a*a_coef, a.b);
+      line(0, linear(a_tangent, 0)*radius, radius, linear(a_tangent, 1)*radius);
+      noStroke();
+      fill(0,255,0);
+      rotate(PI/2);
+      ellipse(radius*a.a, radius*a.b, point_size, point_size);
+      rotate(-PI/2);
+    }
+    rotate(PI/2);
   }
 
   private void display_chord() {
