@@ -21,7 +21,8 @@ else
 fi
 
 rm out
-./converter/build/converter < $1 > out
+make -C converter
+./converter/converter < $1 > out
 if [[ $2 == "" ]]; then
 	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out
 else
