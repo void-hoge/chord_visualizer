@@ -75,6 +75,28 @@ class Circle{
     this.point = new ArrayList<Point>();
   }
 
+  float max_radius() {
+    this.sort_points();
+    float max = 0;
+    for (int i = 0; i < this.flare.size(); i++) {
+      Point p = new Point(this.point.get(this.flare.get(i).a).a, this.point.get(this.flare.get(i).b).a);
+      float arcradius = (abs(p.a-p.b)/PI+1);
+      if (arcradius > max) {
+        max = arcradius;
+      }
+    }
+    return max;
+  }
+
+  void adjust_size(int w, int h) {
+    float max_rad = this.max_radius();
+    if (w > h) {
+      radius = (int)((float)(h/2-10)/max_rad);
+    } else {
+      radius = (int)((float)(w/2-10)/max_rad);
+    }
+  }
+
   void add_chord(int a, int b) {
     this.chord.add(new Pair(a,b));
   }

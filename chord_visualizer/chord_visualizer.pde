@@ -79,6 +79,8 @@ void setup() {
     cl.add_flare(connectlist.get(i*2)-1, connectlist.get(i*2+1)-1);
     println("("+(connectlist.get(i*2)) + ", " + (connectlist.get(i*2+1))+")");
   }
+
+  cl.adjust_size(width, height);
 }
 
 void draw() {
