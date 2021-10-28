@@ -37,8 +37,25 @@ int idx(const int i, const int n) {
 	return i%n;
 }
 
-unsigned diff_of_c(std::vector<int>& pi, const int i, const int n) { // c_i+1 - c_i
+unsigned diff_of_c(const std::vector<int>& pi, const int i, const int n) { // c_i+1 - c_i
 	return (unsigned)(pi.at(idx(i+1,n)) - pi.at(idx(i,n)));
+}
+
+bool check(const std::vector<int>& pi) {
+	std::vector<int> diff;
+	const int n = pi.size();
+	for (int i = 0; i < n; i++) {
+		int tmp = pi.at(idx(i, n))-pi.at(idx(i+1,n));
+		diff.push_back(tmp < 0);
+	}
+	// for (auto a: diff) std::cerr << a << ' '; std::cerr << '\n';
+	int count = 0;
+	for (int i = 0; i < n; i++) {
+		if (diff.at(i) != diff.at(idx(i+1,n))) {
+			count++;
+		}
+	}
+	return count==2;
 }
 
 int main() {
@@ -71,5 +88,10 @@ int main() {
 		std::cout << x << ", " << y << '\n';
 	}
 	std::cerr << "Conversion completed." << '\n';
+	if (check(pi)) {
+		std::cerr << "Intersection check: \033[1;4;32mOK\033[0m" << '\n';
+	}else {
+		std::cerr << "Intersection check: \033[1;4;91mNG\033[0m" << '\n';
+	}
 	return 0;
 }
