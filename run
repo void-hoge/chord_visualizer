@@ -12,11 +12,11 @@ if [[ ! -r $1 ]]; then
 	exit
 else
 	# checking file type
-	filetype=`file $1`
-	if [[ $filetype == "$1: ASCII text" ]]; then
+	file $1 | grep "text"
+	if [[ $? == 0 ]]; then
 		echo "file check: OK"
 	else
-		echo "$1 is not ASCII text. Check README.md about input format."
+		echo "$1 is not text file. Check README.md about input format."
 		exit
 	fi
 fi
