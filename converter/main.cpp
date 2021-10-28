@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 
 using side = bool;
 const side right = true;
@@ -21,6 +22,9 @@ int input(std::vector<int>& v, std::istream& is) {
 		v.push_back(tmp);
 	}
 	// for (const auto a: v) std::cerr << a << ' '; std::cerr << '\n';
+	if (v.at(v.size()-1) == v.at(v.size()-2)) {
+		throw std::invalid_argument("Number of input is incorrect.");
+	}
 	return len;
 }
 

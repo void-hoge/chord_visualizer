@@ -1,28 +1,34 @@
-#!/bin/sh -x
+#!/bin/sh
+rm out
 if [[ $1 = "" ]]; then
-	# コマンドライン引数がない
+	# no argument
 	echo "no input file"
 	exit
 fi
 
 if [[ ! -r $1 ]]; then
-	# 読み取り不可
+	# cannot read
 	echo "$1 not found."
 	exit
 else
-	# ファイルタイプのチェック
+	# checking file type
 	filetype=`file $1`
 	if [[ $filetype == "$1: ASCII text" ]]; then
 		echo "file check: OK"
 	else
-		echo "$1 is not ASCII text. Input must be a text file. Check README.md about input format."
+		echo "$1 is not ASCII text. Check README.md about input format."
 		exit
 	fi
 fi
 
-rm out
 make -C converter
 ./converter/converter < $1 > out
+if [[ $? != 0 ]]; then
+	echo "converter has terminated incorrectly."
+	rm out
+	exit
+fi
+
 if [[ $2 == "" ]]; then
 	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out
 else
