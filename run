@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 if [[ $1 = "" ]]; then
 	# コマンドライン引数がない
 	echo "no input file"
@@ -20,6 +20,7 @@ else
 	fi
 fi
 
+rm out
 ./converter/build/converter < $1 > out
 if [[ $2 == "" ]]; then
 	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out
