@@ -11,10 +11,11 @@
 - 順序の数列を記述したテキストファイルを用意
 - `./run *filename*`で実行
 - 例えば、`./run test`
-- 実行時のターミナルの様子
 - `./run *input* *image_name*`で、名前が image_nameの画像が出力される。
 - 画像の形式は何も指定しないとTIFF(.tif)
 - png、jpgなどが設定できる。(processingの[save関数](https://processing.org/reference/save_.html)を使用している。)
+- Intersection checkは交差するかどうかのチェック。OKなら交差なし、NGなら交差あり。(色で強調されている)
+- 実行時のターミナルの様子
 
 <img src="images/terminal.png" width="800">
 
@@ -57,7 +58,7 @@
 
 ## chord_visualizerの描画設定
 - 今のところ、何を描画するかはchord_visualizerのソースファイルに書く必要がある。
-- [chord_visualizer.pde](chord_visualizer/chord_visualizer.pde)の21-25行目をコメントアウトしたりしなかったりすることで設定できる。
+- [chord_visualizer.pde](chord_visualizer/chord_visualizer.pde)の28-32行目をコメントアウトしたりしなかったりすることで設定できる。
   - isDisplayChord: 弦を描画するかどうか
   - isDisplayFlare: 外側で点をつなぐ曲線を描画するか
   - isDisplayParabola: 2次曲線を描画するか
@@ -66,6 +67,3 @@
 - コメントアウトすると表示されなくなる。(画像では弦の描画を切っている)
 
 <img src="images/option.png" width="400">
-
-## TODO
-- ファイルから表示設定ができるようにする(?)
