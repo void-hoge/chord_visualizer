@@ -1,8 +1,25 @@
-#!/bin/sh -x
-if [[ $1 == "" ]]; then
+#!/bin/sh
+if [[ $1 = "" ]]; then
+	# コマンドライン引数がない
 	echo "no input file"
 	exit
 fi
+
+if [[ ! -r $1 ]]; then
+	# 読み取り不可
+	echo "$1 not found."
+	exit
+else
+	# ファイルタイプのチェック
+	filetype=`file $1`
+	if [[ $filetype == "$1: ASCII text" ]]; then
+		echo "file check: OK"
+	else
+		echo "$1 is not ASCII text. Input must be a text file. Check README.md about input format."
+		exit
+	fi
+fi
+
 ./converter/build/converter < $1 > out
 if [[ $2 == "" ]]; then
 	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out
