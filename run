@@ -1,19 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 rm out
-if [[ $1 = "" ]]; then
+if [ "$1" = '' ]; then
 	# no argument
 	echo "no input file"
 	exit
 fi
 
-if [[ ! -r $1 ]]; then
+if [ ! -r "$1" ]; then
 	# cannot read
 	echo "$1 not found."
 	exit
 else
 	# checking file type
 	file $1 | grep "text"
-	if [[ $? == 0 ]]; then
+	if [ $? == 0 ]; then
 		echo "file check: OK"
 	else
 		echo "$1 is not text file. Check README.md about input format."
@@ -23,13 +23,13 @@ fi
 
 make -C converter
 ./converter/converter < $1 > out
-if [[ $? != 0 ]]; then
+if [ $? != 0 ]; then
 	echo "converter has terminated incorrectly."
 	rm out
 	exit
 fi
 
-if [[ $2 == "" ]]; then
+if [ "$2" == "" ]; then
 	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out
 else
 	processing-java --sketch=`pwd`/chord_visualizer/ --run `pwd`/out `pwd`/$2
