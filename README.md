@@ -1,13 +1,29 @@
 # chord_visualizer
+
+- 記述に基づく弦と細胞膜のvisualizer
+
 <img src="images/result.png" width="800">
 
-## installation
-- 少なくともMacに対応、おそらくLinuxにも対応、Windowsは非対応
+---
+## Authers
+- M.Noda (GitHub: void-hoge)
+
+## References
+- Tosue,M. and K.Takahashi: "Towards a Qualitative Reasoning on Shape Change and Object Division," 14th International Conference on Spatial Information Theory (COSIT 2019), pp.7:1-7:15, LIPICS Vol. 142, ISBN 978-3-95977-115-3, September, 2019.
+
+- 東末桃：「形状変化に関する定性的な記述方式と推論およびその性質について」関西学院大学大学院理工学研究科修士論文.
+
+## License
+- GPLv3
+
+---
+
+## Installation
 - processingの実行環境が必要
 - ~~converterをconverter/build/内にビルド~~
 - makefileを追加し、runでコンパイルも行うようにした。
 
-## usage
+## Usage
 - 順序の数列を記述したテキストファイルを用意
 - `./run *filename*`で実行
 - 例えば、`./run test`
@@ -20,7 +36,7 @@
 <img src="images/terminal.png" width="800">
 
 
-## input fileの要件
+## Requirements of input files
 ```
 7
 16 2 5 0.25 -0.25 -3 -5
@@ -31,14 +47,14 @@
 - 3行目は数列piが並ぶ
 - 上のものは現在[test](test)に書いてある。
 
-## converterの要件
+## Requirements of the converter
 - 上記の入力ファイルの中身(n、2次曲線の係数、数列pi)を標準入力
 - nは1行目に標準出力
 - 2次曲線の係数は入力を受けた順番でそのまま2行目に標準出力する
 - 数列piを、件のアルゴリズムに適合する1~2nまでの数字のペアの集合に変換し、3行目以降に標準出力する。
 - 文字はスペース、コンマ区切り(どちらでも良い)
 - 上の[test](test)から入力されたデータは、以下[out](out)のように出力される。
-- この要件を満たすならば、C++でなければならないわけではない。Pythonでも良い。
+- この要件を満たすならば、C++でなければならないわけではない。
 
 ```
 7
@@ -52,11 +68,11 @@
 11, 14
 ```
 
-## chord_visualizerの要件
+## Requirements of the chord_visualizer
 - 上記のconverterの出力が書いてあるファイルのフルパスをコマンドラインオプションから渡す。
 - 中身にアクセスできる必要がある。
 
-## chord_visualizerの描画設定
+## Configuration of the chord_visualizer
 - 今のところ、何を描画するかはchord_visualizerのソースファイルに書く必要がある。
 - [chord_visualizer.pde](chord_visualizer/chord_visualizer.pde)の28-32行目をコメントアウトしたりしなかったりすることで設定できる。
   - isDisplayChord: 弦を描画するかどうか
