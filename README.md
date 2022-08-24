@@ -5,7 +5,7 @@
 <img src="images/result.png" width="800">
 
 ---
-## Authers
+## Author
 - M.Noda (GitHub: void-hoge)
 
 ## References
